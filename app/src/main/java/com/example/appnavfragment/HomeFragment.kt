@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.appnavfragment.databinding.FragmentHomeBinding
@@ -17,10 +19,13 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var navController: NavController
+    private val wordViewModel: WordViewModel by lazy {
+        ViewModelProvider(this)[WordViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = FragmentHomeBinding.inflate(layoutInflater)
+//        binding = FragmentHomeBinding.inflate(layoutInflater)
         navController = findNavController()
 
     }
@@ -29,13 +34,15 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        val viewBtn = view.findViewById<AppCompatButton>(R.id.home_button)
-        viewBtn.setOnClickListener {
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+        binding.homeButton.setOnClickListener {
             Log.i("MSG", "Button Clicked")
-            navigate()
+            addVocabulary()
         }
-        return view
+        wordViewModel.vocabulary.observe(viewLifecycleOwner, Observer { it ->
+            it.forEach { Log.i("MSG", "${it.word} => ${it.meaning}") }
+        })
+        return binding.root
     }
 
     private fun navigate() {
@@ -44,10 +51,17 @@ class HomeFragment : Fragment() {
         navController.navigate(R.id.nextFragment)
     }
 
-    companion object {
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
-        }
+    private fun addVocabulary(){
+        val hiragana = binding.wordTextInputEditText.text.toString()
+        val meaning = binding.meaningTextInputEditText.text.toString()
+        val word = Word(word = hiragana, meaning = meaning)
+        wordViewModel.addVocabulary(word)
+        binding.wordTextInputEditText.setText("")
+        binding.meaningTextInputEditText.setText("")
+        binding.meaningTextInputEditText.clearFocus()
+        val toast = Toast.makeText(requireContext(), "Word added!", Toast.LENGTH_SHORT)
+        toast.show()
     }
+
 
 }
