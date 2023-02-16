@@ -40,9 +40,10 @@ class VocabularyViewModel @Inject constructor(private val vocabularyUseCase: Voc
             vocabularyUseCase.searchVocabularyAsCoroutines(vocabularyID)
         }
     }
+
 }
 
-class VocabularyViewModelFactory(private val vocabularyUseCase: VocabularyUseCase) :
+class VocabularyViewModelFactory @Inject constructor(private val vocabularyUseCase: VocabularyUseCase) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
