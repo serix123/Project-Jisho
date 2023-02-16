@@ -21,6 +21,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun fillFragment(homeFragment: HomeFragment) {
 
-
     }
 }

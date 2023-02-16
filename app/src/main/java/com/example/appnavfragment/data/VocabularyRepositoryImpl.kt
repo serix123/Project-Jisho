@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class VocabularyRepositoryImpl @Inject constructor(private val dao: DAO):VocabularyRepository {
-    override suspend fun getAllVocabularyAsCoroutines(word: String): List<Vocabulary> {
-        return dao.getAllVocabularyAsCoroutines(word)
+    override suspend fun getAllVocabularyAsCoroutines(): List<Vocabulary> {
+        return dao.getAllVocabularyAsCoroutines()
     }
 
     override suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary {
@@ -31,11 +31,11 @@ class VocabularyRepositoryImpl @Inject constructor(private val dao: DAO):Vocabul
         return dao.searchVocabularyAsLiveData(vocabularyID)
     }
 
-    override fun insertVocabulary(vocabulary: Vocabulary) {
+    override suspend fun insertVocabulary(vocabulary: Vocabulary) {
         return dao.insertVocabulary(vocabulary)
     }
 
-    override fun deleteVocabulary(vocabulary: Vocabulary) {
+    override suspend fun deleteVocabulary(vocabulary: Vocabulary) {
         return dao.deleteVocabulary(vocabulary)
     }
 }

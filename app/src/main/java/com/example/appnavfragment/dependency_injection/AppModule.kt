@@ -6,6 +6,8 @@ import com.example.appnavfragment.data.DAO
 import com.example.appnavfragment.data.Database
 import com.example.appnavfragment.data.VocabularyRepositoryImpl
 import com.example.appnavfragment.domain.VocabularyRepository
+import com.example.appnavfragment.domain.VocabularyUseCase
+import com.example.appnavfragment.domain.VocabularyUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +31,11 @@ object AppModule {
     @Provides
     fun provideRepository( dao: DAO):VocabularyRepository {
         return VocabularyRepositoryImpl(dao = dao)
+    }
+    @Singleton
+    @Provides
+    fun provideUseCase( repository: VocabularyRepository):VocabularyUseCase {
+        return VocabularyUseCaseImpl(repository = repository)
     }
 
 }

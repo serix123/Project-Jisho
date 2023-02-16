@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 
 interface VocabularyRepository {
-    suspend fun getAllVocabularyAsCoroutines(word: String): List<Vocabulary>
+    suspend fun getAllVocabularyAsCoroutines(): List<Vocabulary>
 
     suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary
 
@@ -16,8 +16,8 @@ interface VocabularyRepository {
 
     fun searchVocabularyAsLiveData(vocabularyID: Int): LiveData<Vocabulary>
 
-    fun insertVocabulary(vocabulary: Vocabulary)
+    suspend fun insertVocabulary(vocabulary: Vocabulary)
 
-    fun deleteVocabulary(vocabulary: Vocabulary)
+    suspend fun deleteVocabulary(vocabulary: Vocabulary)
 
 }

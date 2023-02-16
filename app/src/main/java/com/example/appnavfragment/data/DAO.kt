@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface DAO {
 
     @Query("SELECT * FROM vocabulary_item")
-    suspend fun getAllVocabularyAsCoroutines(word: String): List<Vocabulary>
+    suspend fun getAllVocabularyAsCoroutines(): List<Vocabulary>
 
     @Query("SELECT * FROM vocabulary_item WHERE vocabulary_item.id = :vocabularyID")
     suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary
@@ -30,8 +30,8 @@ interface DAO {
     fun searchVocabularyAsLiveData(vocabularyID: Int): LiveData<Vocabulary>
 
     @Insert
-    fun insertVocabulary(vocabulary: Vocabulary)
+    suspend fun insertVocabulary(vocabulary: Vocabulary)
 
     @Delete
-    fun deleteVocabulary(vocabulary: Vocabulary)
+    suspend fun deleteVocabulary(vocabulary: Vocabulary)
 }
