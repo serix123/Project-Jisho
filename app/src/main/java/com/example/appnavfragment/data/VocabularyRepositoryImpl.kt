@@ -15,16 +15,16 @@ class VocabularyRepositoryImpl @Inject constructor(private val dao: DAO):Vocabul
         return dao.searchVocabularyAsCoroutines(vocabularyID)
     }
 
-    override fun getAllVocabularyAsFlow(word: String): Flow<List<Vocabulary>> {
-        return dao.getAllVocabularyAsFlow(word)
+    override fun getAllVocabularyAsFlow(): Flow<List<Vocabulary>> {
+        return dao.getAllVocabularyAsFlow()
     }
 
     override fun searchVocabularyAsFlow(vocabularyID: Int): Flow<Vocabulary> {
         return dao.searchVocabularyAsFlow(vocabularyID)
     }
 
-    override fun getAllVocabularyAsLiveData(word: String): LiveData<List<Vocabulary>> {
-        return dao.getAllVocabularyAsLiveData(word)
+    override fun getAllVocabularyAsLiveData(): LiveData<List<Vocabulary>> {
+        return dao.getAllVocabularyAsLiveData()
     }
 
     override fun searchVocabularyAsLiveData(vocabularyID: Int): LiveData<Vocabulary> {

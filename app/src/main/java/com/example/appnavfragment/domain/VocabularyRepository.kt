@@ -8,11 +8,11 @@ interface VocabularyRepository {
 
     suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary
 
-    fun getAllVocabularyAsFlow(word: String): Flow<List<Vocabulary>>
+    fun getAllVocabularyAsFlow(): Flow<List<Vocabulary>>
 
     fun searchVocabularyAsFlow(vocabularyID: Int): Flow<Vocabulary>
 
-    fun getAllVocabularyAsLiveData(word: String): LiveData<List<Vocabulary>>
+    fun getAllVocabularyAsLiveData(): LiveData<List<Vocabulary>>
 
     fun searchVocabularyAsLiveData(vocabularyID: Int): LiveData<Vocabulary>
 

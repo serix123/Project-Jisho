@@ -18,13 +18,13 @@ interface DAO {
     suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary
 
     @Query("SELECT * FROM vocabulary_item")
-    fun getAllVocabularyAsFlow(word: String): Flow<List<Vocabulary>>
+    fun getAllVocabularyAsFlow(): Flow<List<Vocabulary>>
 
     @Query("SELECT * FROM vocabulary_item WHERE vocabulary_item.id = :vocabularyID")
     fun searchVocabularyAsFlow(vocabularyID: Int): Flow<Vocabulary>
 
     @Query("SELECT * FROM vocabulary_item")
-    fun getAllVocabularyAsLiveData(word: String): LiveData<List<Vocabulary>>
+    fun getAllVocabularyAsLiveData(): LiveData<List<Vocabulary>>
 
     @Query("SELECT * FROM vocabulary_item WHERE vocabulary_item.id = :vocabularyID")
     fun searchVocabularyAsLiveData(vocabularyID: Int): LiveData<Vocabulary>

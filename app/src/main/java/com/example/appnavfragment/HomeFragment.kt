@@ -13,19 +13,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appnavfragment.databinding.FragmentHomeBinding
+import com.example.appnavfragment.presentation.VocabularyViewModel
+import com.example.appnavfragment.presentation.components.VocabularyListAdapter
+import dagger.hilt.android.internal.Contexts
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var navController: NavController
-    private val wordViewModel: WordViewModel by lazy {
-        ViewModelProvider(this)[WordViewModel::class.java]
+    private val vocabularyViewModel: VocabularyViewModel by lazy {
+        ViewModelProvider(this)[VocabularyViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navController = findNavController()
+        setRecyclerView()
 
     }
 
@@ -34,32 +39,36 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        binding.homeButton.setOnClickListener {
-            Log.i("MSG", "Button Clicked")
-            addVocabulary()
+        binding.addVocabularyFAB.setOnClickListener {
+            navigate()
         }
-        wordViewModel.vocabulary.observe(viewLifecycleOwner, Observer { it ->
-            it.forEach { Log.i("MSG", "${it.word} => ${it.meaning}") }
-        })
+
+
         return binding.root
     }
 
-    private fun navigate() {
-        val toast = Toast.makeText(requireContext(), "Button was clicked!", Toast.LENGTH_SHORT)
-        toast.show()
-        navController.navigate(R.id.nextFragment)
+    private fun setRecyclerView() {
+
+        vocabularyViewModel.vocabularyLiveData.observe(this) {
+            if (it.isEmpty()) {
+                binding.vocabularyList.visibility = View.GONE
+                binding.emptyListTextView.visibility = View.VISIBLE
+            } else {
+                binding.vocabularyList.visibility = View.VISIBLE
+                binding.emptyListTextView.visibility = View.GONE
+
+            }
+            binding.vocabularyList.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = VocabularyListAdapter(it)
+            }
+        }
     }
 
-    private fun addVocabulary(){
-        val hiragana = binding.wordTextInputEditText.text.toString()
-        val meaning = binding.meaningTextInputEditText.text.toString()
-        val word = Word(word = hiragana, meaning = meaning)
-        wordViewModel.addVocabulary(word)
-        binding.wordTextInputEditText.setText("")
-        binding.meaningTextInputEditText.setText("")
-        binding.meaningTextInputEditText.clearFocus()
-        val toast = Toast.makeText(requireContext(), "Word added!", Toast.LENGTH_SHORT)
+    private fun navigate() {
+        val toast = Toast.makeText(requireContext(), "Going to next screen", Toast.LENGTH_SHORT)
         toast.show()
+        navController.navigate(R.id.nextFragment)
     }
 
 
