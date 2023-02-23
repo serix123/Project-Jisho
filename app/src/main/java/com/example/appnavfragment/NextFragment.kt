@@ -20,26 +20,29 @@ class NextFragment : Fragment() {
 
     private lateinit var binding: FragmentNextBinding
     private lateinit var navController: NavController
+    lateinit var vocabularyViewModel: VocabularyViewModel
 
-    private val vocabularyViewModel: VocabularyViewModel by lazy {
-        ViewModelProvider(this)[VocabularyViewModel::class.java]
-    }
+//    private val vocabularyViewModel: VocabularyViewModel by lazy {
+//        ViewModelProvider(this)[VocabularyViewModel::class.java]
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navController = findNavController()
-
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentNextBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val activity = requireActivity()
+        vocabularyViewModel = ViewModelProvider(activity).get(VocabularyViewModel::class.java)
         binding.submitBtn.setOnClickListener {
             addVocabulary()
         }
@@ -51,7 +54,7 @@ class NextFragment : Fragment() {
         navController.navigate(R.id.homeFragment)
     }
 
-    private fun addVocabulary(){
+    private fun addVocabulary() {
         val hiragana = binding.wordTextInputEditText.text.toString()
         val meaning = binding.meaningTextInputEditText.text.toString()
         val kanji = binding.kanjiTextInputEditText.text.toString()
@@ -63,5 +66,6 @@ class NextFragment : Fragment() {
         vocabularyViewModel.getAllVocabulary()
         val toast = Toast.makeText(requireContext(), "Word added!", Toast.LENGTH_SHORT)
         toast.show()
+        navController.popBackStack()
     }
 }

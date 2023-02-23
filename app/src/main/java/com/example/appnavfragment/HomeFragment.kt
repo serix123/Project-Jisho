@@ -17,21 +17,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appnavfragment.databinding.FragmentHomeBinding
 import com.example.appnavfragment.presentation.VocabularyViewModel
 import com.example.appnavfragment.presentation.components.VocabularyListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.internal.Contexts
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var navController: NavController
-    private val vocabularyViewModel: VocabularyViewModel by lazy {
-        ViewModelProvider(this)[VocabularyViewModel::class.java]
-    }
+
+    //    private val vocabularyViewModel: VocabularyViewModel by lazy {
+//        ViewModelProvider(this)[VocabularyViewModel::class.java]
+//    }
+    lateinit var vocabularyViewModel: VocabularyViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navController = findNavController()
-        setRecyclerView()
-
     }
 
     override fun onCreateView(
@@ -39,17 +42,23 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val activity = requireActivity()
+        vocabularyViewModel = ViewModelProvider(activity).get(VocabularyViewModel::class.java)
+        vocabularyViewModel.getAllVocabulary()
+        setRecyclerView()
         binding.addVocabularyFAB.setOnClickListener {
             navigate()
         }
-
-
-        return binding.root
     }
 
     private fun setRecyclerView() {
 
-        vocabularyViewModel.vocabularyLiveData.observe(this) {
+        vocabularyViewModel.vocabularyLiveData.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 binding.vocabularyList.visibility = View.GONE
                 binding.emptyListTextView.visibility = View.VISIBLE

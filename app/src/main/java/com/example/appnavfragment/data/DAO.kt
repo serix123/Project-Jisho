@@ -1,10 +1,7 @@
 package com.example.appnavfragment.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.appnavfragment.domain.Vocabulary
 import kotlinx.coroutines.flow.Flow
 
@@ -15,7 +12,7 @@ interface DAO {
     suspend fun getAllVocabularyAsCoroutines(): List<Vocabulary>
 
     @Query("SELECT * FROM vocabulary_item WHERE vocabulary_item.id = :vocabularyID")
-    suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary
+    suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary?
 
     @Query("SELECT * FROM vocabulary_item")
     fun getAllVocabularyAsFlow(): Flow<List<Vocabulary>>
@@ -29,7 +26,7 @@ interface DAO {
     @Query("SELECT * FROM vocabulary_item WHERE vocabulary_item.id = :vocabularyID")
     fun searchVocabularyAsLiveData(vocabularyID: Int): LiveData<Vocabulary>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertVocabulary(vocabulary: Vocabulary)
 
     @Delete

@@ -7,7 +7,7 @@ class VocabularyUseCaseImpl @Inject constructor(private val repository: Vocabula
         return repository.getAllVocabularyAsCoroutines()
     }
 
-    override suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary {
+    override suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary? {
         return repository.searchVocabularyAsCoroutines(vocabularyID = vocabularyID)
     }
 

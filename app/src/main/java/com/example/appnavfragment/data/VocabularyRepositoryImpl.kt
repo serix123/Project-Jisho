@@ -11,7 +11,7 @@ class VocabularyRepositoryImpl @Inject constructor(private val dao: DAO):Vocabul
         return dao.getAllVocabularyAsCoroutines()
     }
 
-    override suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary {
+    override suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary? {
         return dao.searchVocabularyAsCoroutines(vocabularyID)
     }
 

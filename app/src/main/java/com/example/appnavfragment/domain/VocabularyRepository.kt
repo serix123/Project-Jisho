@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface VocabularyRepository {
     suspend fun getAllVocabularyAsCoroutines(): List<Vocabulary>
 
-    suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary
+    suspend fun searchVocabularyAsCoroutines(vocabularyID: Int): Vocabulary?
 
     fun getAllVocabularyAsFlow(): Flow<List<Vocabulary>>
 
