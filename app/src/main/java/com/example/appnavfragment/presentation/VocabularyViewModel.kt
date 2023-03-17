@@ -13,6 +13,9 @@ import javax.inject.Inject
 class VocabularyViewModel @Inject constructor(private val vocabularyUseCase: VocabularyUseCase) :
     ViewModel() {
 
+    init {
+        getAllVocabulary()
+    }
     private val _vocabularyLiveData = MutableLiveData<List<Vocabulary>>()
     val vocabularyLiveData: LiveData<List<Vocabulary>> = _vocabularyLiveData
 

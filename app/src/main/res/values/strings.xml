@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppNavFragment</string>
+    <string name="app_name">日本の電子辞書</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="home_fragment">日本語ボキャブラリ</string>
     <string name="next_fragment">next fragment</string>

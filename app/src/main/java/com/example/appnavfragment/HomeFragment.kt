@@ -29,12 +29,15 @@ class HomeFragment : Fragment() {
     //    private val vocabularyViewModel: VocabularyViewModel by lazy {
 //        ViewModelProvider(this)[VocabularyViewModel::class.java]
 //    }
-    lateinit var vocabularyViewModel: VocabularyViewModel
+    private lateinit var vocabularyViewModel: VocabularyViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navController = findNavController()
+
+        val activity = requireActivity()
+        vocabularyViewModel = ViewModelProvider(activity)[VocabularyViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -47,8 +50,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val activity = requireActivity()
-        vocabularyViewModel = ViewModelProvider(activity).get(VocabularyViewModel::class.java)
         vocabularyViewModel.getAllVocabulary()
         setRecyclerView()
         binding.addVocabularyFAB.setOnClickListener {
