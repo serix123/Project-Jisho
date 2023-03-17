@@ -63,7 +63,6 @@ class NextFragment : Fragment() {
         binding.wordTextInputEditText.setText("")
         binding.meaningTextInputEditText.setText("")
         binding.meaningTextInputEditText.clearFocus()
-//        vocabularyViewModel.getAllVocabulary()
         val toast = Toast.makeText(requireContext(), "Word added!", Toast.LENGTH_SHORT)
         toast.show()
         navController.popBackStack()
